@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-docker compose up -d     # ローカル開発用 MySQL (+ Adminer) 起動。先に必須
+docker compose up -d     # ローカル開発用 MySQL 起動。先に必須
 go run ./cmd/server      # 起動 (ADDR=:8080, DB_DSN=app:app@tcp(127.0.0.1:3306)/effort_tracker)
 go build ./...           # ビルド
 go vet ./...             # 静的解析
@@ -17,7 +17,7 @@ docker compose down [-v] # MySQL停止 (-v でデータ破棄)
 
 環境変数: `ADDR`（リッスンアドレス, 既定 `:8080`）、`DB_DSN`（MySQL DSN = go-sql-driver形式, 既定 `app:app@tcp(127.0.0.1:3306)/effort_tracker`）。
 
-`compose.yaml` が MySQL 8.4（`localhost:3306`, db=`effort_tracker`/user=`app`/pass=`app`）と Adminer（http://localhost:8081）を提供する。アプリ本体はホスト側で `go run` し、コンテナのMySQLへ接続する。
+`compose.yaml` が MySQL 8.4（`localhost:3306`, db=`effort_tracker`/user=`app`/pass=`app`）を提供する。アプリ本体はホスト側で `go run` し、コンテナのMySQLへ接続する。
 
 ## Architecture
 

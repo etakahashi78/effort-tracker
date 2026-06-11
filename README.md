@@ -30,13 +30,12 @@ effort-tracker/
 ## 実行
 
 ```bash
-docker compose up -d          # MySQL (+ Adminer) を起動
+docker compose up -d          # MySQL を起動
 go mod download
 go run ./cmd/server           # ホスト側からMySQLへ接続
 ```
 
 - MySQL: `localhost:3306`（db=`effort_tracker`, user=`app`, pass=`app`）
-- Adminer（DBブラウザ・任意）: http://localhost:8081
 - 停止: `docker compose down`（データ保持） / `docker compose down -v`（データ破棄）
 
 環境変数:
