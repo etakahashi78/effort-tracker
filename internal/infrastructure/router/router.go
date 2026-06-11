@@ -6,26 +6,31 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-chi/chi/v5"
+
 	"github.com/etakahashi78/effort-tracker/internal/adapter/handler"
 )
 
 // New は各ハンドラを受け取り、全エンドポイントを集約した http.Handler を構築する。
 func New(logger *slog.Logger, project *handler.ProjectHandler) http.Handler {
-	// ---- ルーティング定義(全エンドポイントをここに集約) ----
-	mux := http.NewServeMux()
+	r := chi.NewRouter()
+	r.Use(requestLogger(logger))
 
-	mux.HandleFunc("GET /healthz", healthz)
+	// ---- ルーティング定義(全エンドポイントをここに集約) ----
+	r.Get("/healthz", healthz)
 
 	// Project
-	mux.HandleFunc("POST /projects", project.Create)
-	mux.HandleFunc("GET /projects", project.List)
-	mux.HandleFunc("GET /projects/{id}", project.Get)
-	mux.HandleFunc("PUT /projects/{id}", project.Update)
-	mux.HandleFunc("DELETE /projects/{id}", project.Delete)
+	r.Route("/projects", func(r chi.Router) {
+		r.Post("/", project.Create)
+		r.Get("/", project.List)
+		r.Get("/{id}", project.Get)
+		r.Put("/{id}", project.Update)
+		r.Delete("/{id}", project.Delete)
+	})
 
 	// TODO: Task / TimeEntry / User を同様にここへ追加する。
 
-	return logging(logger, mux)
+	return r
 }
 
 // healthz はヘルスチェックを返す。
@@ -35,19 +40,21 @@ func healthz(w http.ResponseWriter, _ *http.Request) {
 	_, _ = w.Write([]byte(`{"status":"ok"}`))
 }
 
-// logging は各リクエストのメソッド・パス・ステータス・所要時間を記録する。
-func logging(logger *slog.Logger, next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		start := time.Now()
-		rec := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
-		next.ServeHTTP(rec, r)
-		logger.Info("request",
-			"method", r.Method,
-			"path", r.URL.Path,
-			"status", rec.status,
-			"duration", time.Since(start).String(),
-		)
-	})
+// requestLogger は各リクエストのメソッド・パス・ステータス・所要時間を記録する chi ミドルウェア。
+func requestLogger(logger *slog.Logger) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			rec := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
+			next.ServeHTTP(rec, r)
+			logger.Info("request",
+				"method", r.Method,
+				"path", r.URL.Path,
+				"status", rec.status,
+				"duration", time.Since(start).String(),
+			)
+		})
+	}
 }
 
 type statusRecorder struct {
