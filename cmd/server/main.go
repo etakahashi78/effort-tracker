@@ -14,8 +14,8 @@ import (
 
 	"github.com/etakahashi78/effort-tracker/internal/adapter/handler"
 	"github.com/etakahashi78/effort-tracker/internal/adapter/persistence"
-	"github.com/etakahashi78/effort-tracker/internal/infrastructure/database"
-	"github.com/etakahashi78/effort-tracker/internal/infrastructure/router"
+	"github.com/etakahashi78/effort-tracker/internal/infra/database"
+	"github.com/etakahashi78/effort-tracker/internal/infra/router"
 	"github.com/etakahashi78/effort-tracker/internal/usecase"
 )
 

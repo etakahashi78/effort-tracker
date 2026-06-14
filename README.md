@@ -5,7 +5,6 @@
 ## 技術スタック
 
 - Go 1.26
-- ルーティング: 標準ライブラリ `net/http`（Go 1.22+ の `ServeMux` パターンルーティング）
 - DB: MySQL 8（`github.com/go-sql-driver/mysql`）。ローカル開発は `compose.yaml` で起動
 
 ## ディレクトリ構成（クリーンアーキテクチャ）
@@ -19,12 +18,12 @@ effort-tracker/
 │   ├── adapter/
 │   │   ├── handler/                # HTTP ⇔ usecase の変換
 │   │   └── persistence/            # domain リポジトリIF の MySQL 実装
-│   └── infrastructure/
+│   └── infra/
 │       ├── database/               # MySQL接続 + schema.sql（embed）
 │       └── router/                 # ルーティング集約 + ミドルウェア
 ```
 
-依存方向は常に内向き: `infrastructure` / `adapter` → `usecase` → `domain`。
+依存方向は常に内向き: `infra` / `adapter` → `usecase` → `domain`。
 永続化は `domain` のインターフェースを `adapter/persistence` が実装する依存性逆転で結合。
 
 ## 実行
