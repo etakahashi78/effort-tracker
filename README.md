@@ -71,4 +71,4 @@ curl localhost:8080/projects
 
 `Project` と同じ垂直スライス（`domain` IF → `usecase` → `persistence` → `handler` →
 `router`/`main` での配線）で `Task` → `TimeEntry` → `User` のCRUDを順に追加する。
-詳細は `CLAUDE.md` の「実装状況と拡張パターン」を参照。
+詳細は `AGENTS.md` の「実装状況と拡張パターン」を参照。

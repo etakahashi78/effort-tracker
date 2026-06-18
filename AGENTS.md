@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Agents AI like Claude Code (claude.ai/code) when working with code in this repository.
 
 工数管理ツール (effort-tracker) の REST API プロトタイプ。Go 1.26 / 標準ライブラリ `net/http` / MySQL 8 (`github.com/go-sql-driver/mysql`)。
 
