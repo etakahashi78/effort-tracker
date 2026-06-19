@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# GitHub Actions
+.github
+
+# Tools & AI Configuration
+.pre-commit-config.yaml
+.claude
+.gemini
+AGENTS.md
+CLAUDE.md
+
+# Docker Configurations
+Dockerfile
+.dockerignore
+compose.yaml
+
+# Compiled Binaries and Test Outputs
+*.test
+*.out
+server
+
+# IDEs / Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
