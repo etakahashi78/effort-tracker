@@ -1,0 +1,9 @@
+{
+  "name": "effort-tracker-plugin",
+  "version": "1.0.0",
+  "description": "Custom agent plugin containing specialized development skills for the effort-tracker project.",
+  "author": {
+    "name": "Antigravity Agent"
+  },
+  "license": "MIT"
+}
