@@ -43,7 +43,7 @@ func (m *mockTimeEntryUsecase) Delete(ctx context.Context, id int64) error {
 // newTimeEntryTestServer はモックを注入したハンドラを実ルータに載せた http.Handler を返す。
 func newTimeEntryTestServer(uc handler.TimeEntryUsecase) http.Handler {
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
-	return router.New(logger, handler.NewProjectHandler(nil), handler.NewTimeEntryHandler(uc))
+	return router.New(logger, handler.NewProjectHandler(nil), handler.NewTimeEntryHandler(uc), handler.NewUserHandler(nil))
 }
 
 func TestTimeEntryHandler_Create(t *testing.T) {

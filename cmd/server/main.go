@@ -41,9 +41,13 @@ func main() {
 	timeEntryUC := usecase.NewTimeEntryUsecase(timeEntryRepo)
 	timeEntryHandler := handler.NewTimeEntryHandler(timeEntryUC)
 
+	userRepo := persistence.NewUserRepository(db) // domain.UserRepository を満たす
+	userUC := usecase.NewUserUsecase(userRepo)
+	userHandler := handler.NewUserHandler(userUC)
+
 	srv := &http.Server{
 		Addr:              addr,
-		Handler:           router.New(logger, projectHandler, timeEntryHandler),
+		Handler:           router.New(logger, projectHandler, timeEntryHandler, userHandler),
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 

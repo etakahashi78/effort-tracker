@@ -31,3 +31,13 @@ type TimeEntryRepository interface {
 	Update(ctx context.Context, e *TimeEntry) (*TimeEntry, error)
 	Delete(ctx context.Context, id int64) error
 }
+
+// UserRepository は User 永続化のポート(契約)。
+// 実装は外側の adapter/persistence 層が提供する(依存性逆転)。
+type UserRepository interface {
+	Create(ctx context.Context, u *User) (*User, error)
+	Get(ctx context.Context, id int64) (*User, error)
+	List(ctx context.Context) ([]User, error)
+	Update(ctx context.Context, u *User) (*User, error)
+	Delete(ctx context.Context, id int64) error
+}
