@@ -46,7 +46,7 @@ func (m *mockProjectUsecase) Delete(ctx context.Context, id int64) error {
 // chi の URL パラメータ解決まで含めて検証できる。
 func newTestServer(uc handler.ProjectUsecase) http.Handler {
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
-	return router.New(logger, handler.NewProjectHandler(uc))
+	return router.New(logger, handler.NewProjectHandler(uc), handler.NewTimeEntryHandler(nil))
 }
 
 func do(t *testing.T, h http.Handler, method, path, body string) *httptest.ResponseRecorder {

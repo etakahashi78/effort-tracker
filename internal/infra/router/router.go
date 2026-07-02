@@ -12,7 +12,7 @@ import (
 )
 
 // New は各ハンドラを受け取り、全エンドポイントを集約した http.Handler を構築する。
-func New(logger *slog.Logger, project *handler.ProjectHandler) http.Handler {
+func New(logger *slog.Logger, project *handler.ProjectHandler, timeEntry *handler.TimeEntryHandler) http.Handler {
 	r := chi.NewRouter()
 	r.Use(requestLogger(logger))
 
@@ -28,7 +28,16 @@ func New(logger *slog.Logger, project *handler.ProjectHandler) http.Handler {
 		r.Delete("/{id}", project.Delete)
 	})
 
-	// TODO: Task / TimeEntry / User を同様にここへ追加する。
+	// TimeEntry
+	r.Route("/time-entries", func(r chi.Router) {
+		r.Post("/", timeEntry.Create)
+		r.Get("/", timeEntry.List)
+		r.Get("/{id}", timeEntry.Get)
+		r.Put("/{id}", timeEntry.Update)
+		r.Delete("/{id}", timeEntry.Delete)
+	})
+
+	// TODO: Task / User を同様にここへ追加する。
 
 	return r
 }

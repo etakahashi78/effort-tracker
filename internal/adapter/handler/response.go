@@ -10,6 +10,17 @@ import (
 	"github.com/etakahashi78/effort-tracker/internal/domain"
 )
 
+// decodeJSON はリクエストボディを v へデコードする。
+// 未知フィールドは拒否し(DisallowUnknownFields)、失敗時は分かりやすいエラーを返す。
+func decodeJSON(r *http.Request, v any) error {
+	dec := json.NewDecoder(r.Body)
+	dec.DisallowUnknownFields()
+	if err := dec.Decode(v); err != nil {
+		return errors.New("invalid JSON body: " + err.Error())
+	}
+	return nil
+}
+
 // writeJSON は値をJSONとして指定ステータスで書き出す。
 func writeJSON(w http.ResponseWriter, status int, v any) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
