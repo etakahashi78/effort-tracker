@@ -37,12 +37,6 @@ go run ./cmd/server           # ホスト側からMySQLへ接続
 - MySQL: `localhost:3306`（db=`effort_tracker`, user=`app`, pass=`app`）
 - 停止: `docker compose down`（データ保持） / `docker compose down -v`（データ破棄）
 
-## Dockerビルド
-
-```bash
-docker buildx build --platform linux/arm64 -t effort-tracker:latest .
-```
-
 環境変数:
 
 | 変数      | デフォルト                                          | 説明                          |
